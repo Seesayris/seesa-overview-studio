@@ -1,0 +1,6 @@
+{
+  "name": "SEESA – Project Overview",
+  "description": "Interactive scroll-driven project overview of SEESA, a coaching platform by SEESAYRIS, for partners, funders and advisers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

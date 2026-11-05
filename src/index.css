@@ -1,0 +1,272 @@
+@import "tailwindcss";
+
+:root {
+  --gold: #D8B04A;
+  --gold-soft: rgba(216, 176, 74, 0.22);
+  --gold-faint: rgba(216, 176, 74, 0.12);
+  --black: #141210;
+  --surface: #1B1815;
+  --surface-elevated: #221E1A;
+  --cream: #F4F1E8;
+  --cream-muted: rgba(244, 241, 232, 0.72);
+  --cream-subtle: rgba(244, 241, 232, 0.48);
+  --border-subtle: rgba(244, 241, 232, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Heebo", sans-serif;
+  background-color: var(--black);
+  color: var(--cream);
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Heebo", sans-serif;
+  background-color: var(--black);
+  color: var(--cream);
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  line-height: 1.65;
+  letter-spacing: 0.005em;
+}
+
+/* Focus visibility for keyboard accessibility */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* Numbers and prices stay readable inside Hebrew and English text */
+.num-readable {
+  font-variant-numeric: tabular-nums;
+  unicode-bidi: isolate;
+}
+
+/* Language switch cross-fade */
+.lang-crossfade {
+  transition: opacity 180ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.lang-crossfade-fading {
+  opacity: 0.15;
+}
+
+/* Opening door animation (compositor-only transform & opacity) */
+.hero-door-left {
+  transform: translate3d(0, 0, 0);
+  transition: transform 1050ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1050ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-door-right {
+  transform: translate3d(0, 0, 0);
+  transition: transform 1050ms cubic-bezier(0.22, 1, 0.36, 1), opacity 1050ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.hero-doors-open .hero-door-left {
+  transform: translate3d(-102%, 0, 0);
+  opacity: 0;
+}
+
+.hero-doors-open .hero-door-right {
+  transform: translate3d(102%, 0, 0);
+  opacity: 0;
+}
+
+/* Hero content settle reveal */
+.hero-reveal {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  transition: opacity 850ms cubic-bezier(0.16, 1, 0.3, 1), transform 850ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.hero-doors-open .hero-reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Soft gold glint on hero logo on load (runs once) */
+@keyframes heroLogoGlint {
+  0% {
+    transform: translate3d(-130%, 0, 0);
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  80% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(130%, 0, 0);
+    opacity: 0;
+  }
+}
+
+.logo-gold-glint {
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+}
+
+.hero-doors-open .logo-gold-glint::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    110deg,
+    transparent 20%,
+    rgba(216, 176, 74, 0.38) 50%,
+    transparent 80%
+  );
+  transform: translate3d(-130%, 0, 0);
+  animation: heroLogoGlint 1250ms cubic-bezier(0.22, 1, 0.36, 1) 420ms 1 forwards;
+}
+
+/* Gentle slide reveal for section titles */
+[dir="ltr"] .section-title-slide {
+  opacity: 0;
+  transform: translate3d(-14px, 6px, 0);
+  transition:
+    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+[dir="rtl"] .section-title-slide {
+  opacity: 0;
+  transform: translate3d(14px, 6px, 0);
+  transition:
+    opacity 560ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 560ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.section-title-slide.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Step arrival along reading direction + subtle lift on hover/tap */
+.story-step {
+  opacity: 0;
+  transform: translate3d(0, 16px, 0);
+  transition:
+    opacity 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease;
+  transition-delay: var(--step-delay, 0ms);
+}
+
+[dir="ltr"] .story-step-slide {
+  opacity: 0;
+  transform: translate3d(-14px, 10px, 0);
+  transition:
+    opacity 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease;
+  transition-delay: var(--step-delay, 0ms);
+}
+
+[dir="rtl"] .story-step-slide {
+  opacity: 0;
+  transform: translate3d(14px, 10px, 0);
+  transition:
+    opacity 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 580ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 200ms ease;
+  transition-delay: var(--step-delay, 0ms);
+}
+
+.story-step.is-visible,
+.story-step-slide.is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Subtle card lift on hover or tap once visible */
+.card-lift {
+  transition:
+    transform 180ms cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 180ms ease;
+}
+
+.card-lift:hover,
+.card-lift:active {
+  transform: translate3d(0, -3px, 0);
+}
+
+.story-step-slide.is-visible.card-lift:hover,
+.story-step-slide.is-visible.card-lift:active {
+  transform: translate3d(0, -3px, 0);
+}
+
+/* Soft single pulse when roadmap node is reached */
+@keyframes roadmapNodeSoftPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(216, 176, 74, 0.55);
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(216, 176, 74, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 3px rgba(216, 176, 74, 0.16);
+  }
+}
+
+.roadmap-node-reached {
+  animation: roadmapNodeSoftPulse 950ms cubic-bezier(0.16, 1, 0.3, 1) 1 forwards;
+}
+
+/* Thin gold ring over attached product image */
+.gold-highlight-ring {
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 4px rgba(216, 176, 74, 0.18), inset 0 0 0 1px rgba(20, 18, 16, 0.65);
+  transition:
+    opacity 320ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 320ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Reduced motion compliance: no movement, everything simply visible, line drawn fully */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .hero-door-left,
+  .hero-door-right,
+  .logo-gold-glint::after {
+    display: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .hero-reveal,
+  .section-title-slide,
+  .story-step,
+  .story-step-slide,
+  .lang-crossfade,
+  .card-lift,
+  .card-lift:hover,
+  .card-lift:active {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .roadmap-node-reached {
+    animation: none !important;
+  }
+
+  .gold-progress-fill {
+    transform: scaleY(1) !important;
+    transition: none !important;
+  }
+}
