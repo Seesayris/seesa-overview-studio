@@ -4,12 +4,14 @@
  */
 
 import React, { useEffect, useRef, useState } from 'react';
+import { Smartphone, Watch } from 'lucide-react';
 import { storyContent, Lang } from './content/storyData';
 import { LogoAsset } from './components/LogoAsset';
 import { PinnedHighlightBlock } from './components/PinnedHighlightBlock';
 import { RoadmapLinearPath } from './components/RoadmapLinearPath';
 import { DarkImageFrame } from './components/DarkImageFrame';
 import { FounderPortrait } from './components/FounderPortrait';
+import { CoachWorkspaceHub } from './components/CoachWorkspaceHub';
 
 const IMG_PROG_EN = '/assets/aistudio/01_program_builder_english_b64f3549.png';
 const IMG_PROG_HE = '/assets/aistudio/04_program_builder_hebrew_rtl_2fd19368.png';
@@ -17,22 +19,21 @@ const IMG_LIVE_SESSION =
   '/assets/aistudio/02_live_session_history_and_actions_0bf979ca.png';
 const IMG_VERSIONS =
   '/assets/aistudio/05_versions_and_publish_independent_copies_04f25414.png';
-const IMG_EXERCISE_LIB = '/exercise-library.jpg';
+const IMG_EXERCISE_LIB = '/library-screen.jpg';
 const IMG_EXERCISE_DETAIL = '/exercise-detail.jpg';
 const IMG_HEALTH_DECL = '/health-declaration-review.jpg';
 const IMG_LEAD_ATTR = '/lead-attribution.jpg';
 const IMG_TIMELINE = '/inside-out-timeline.jpg';
 
-const IMG_CLIENTS_LIST = '/assets/aistudio/clients-list_15a419dd.jpg';
-const IMG_CLIENT_OVERVIEW =
-  '/assets/aistudio/coach-client-overview_c9551a73.jpg';
-const IMG_CHECKIN_REVIEW = '/assets/aistudio/checkin-review_63736271.jpg';
-const IMG_NUTRITION_COACH =
-  '/assets/aistudio/nutrition-coach-editor_6cae3f60.jpg';
-const IMG_NUTRITION_CLIENT =
-  '/assets/aistudio/nutrition-client-app_77cc5fa8.jpg';
-const IMG_BOOKING_CREDITS = '/assets/aistudio/booking-credits_93ff9c83.jpg';
-const IMG_PAIR_BILLING = '/assets/aistudio/pair-billing_6a549c1f.jpg';
+const IMG_CLIENTS_LIST = '/clients-list.jpg';
+const IMG_CLIENT_OVERVIEW = '/coach-client-overview.jpg';
+const IMG_CHECKIN_REVIEW = '/checkin-review.jpg';
+const IMG_NUTRITION_COACH = '/nutrition-coach-editor.jpg';
+const IMG_NUTRITION_CLIENT = '/nutrition-client-app.jpg';
+const IMG_CALENDAR_WEEK = '/calendar-week.jpg';
+const IMG_BOOKING_CREDITS = '/booking-credits.jpg';
+const IMG_PAIR_BILLING = '/pair-billing.jpg';
+const IMG_MARKETPLACE = '/marketplace.jpg';
 
 type ActiveSectionId =
   | 'top'
@@ -315,9 +316,9 @@ export default function App() {
     { id: 'contact', label: content.header.contact },
   ];
 
-  const designMockupSampleCaption = content.platform.healthDeclarations.caption;
+  const conceptDesignCaption = content.platform.captions.conceptDesign;
 
-  // Feature cards in Platform section, each with large image(s) in dark frame, click to enlarge, caption "Design mockup, sample data"
+  // Feature cards in Platform section, each with large image(s) (full width on phones, at least two thirds on desktop), title above and caption below
   const platformFeatureCards = [
     {
       id: 'plat-checkins',
@@ -325,10 +326,24 @@ export default function App() {
       secondaryStatus: undefined,
       title: content.platform.clientsAndCheckIns.title,
       description: content.platform.clientsAndCheckIns.description,
+      extraNote: undefined,
+      hasWatchIcons: false,
       images: [
-        { src: IMG_CLIENTS_LIST, caption: designMockupSampleCaption },
-        { src: IMG_CLIENT_OVERVIEW, caption: designMockupSampleCaption },
-        { src: IMG_CHECKIN_REVIEW, caption: designMockupSampleCaption },
+        {
+          src: IMG_CLIENTS_LIST,
+          title: content.platform.clientsAndCheckIns.imageTitles[0],
+          caption: conceptDesignCaption,
+        },
+        {
+          src: IMG_CLIENT_OVERVIEW,
+          title: content.platform.clientsAndCheckIns.imageTitles[1],
+          caption: conceptDesignCaption,
+        },
+        {
+          src: IMG_CHECKIN_REVIEW,
+          title: content.platform.clientsAndCheckIns.imageTitles[2],
+          caption: conceptDesignCaption,
+        },
       ],
     },
     {
@@ -337,9 +352,19 @@ export default function App() {
       secondaryStatus: content.platform.nutritionPlans.statusCalculation,
       title: content.platform.nutritionPlans.title,
       description: content.platform.nutritionPlans.description,
+      extraNote: undefined,
+      hasWatchIcons: false,
       images: [
-        { src: IMG_NUTRITION_COACH, caption: designMockupSampleCaption },
-        { src: IMG_NUTRITION_CLIENT, caption: designMockupSampleCaption },
+        {
+          src: IMG_NUTRITION_COACH,
+          title: content.platform.nutritionPlans.imageTitles[0],
+          caption: conceptDesignCaption,
+        },
+        {
+          src: IMG_NUTRITION_CLIENT,
+          title: content.platform.nutritionPlans.imageTitles[1],
+          caption: conceptDesignCaption,
+        },
       ],
     },
     {
@@ -348,26 +373,50 @@ export default function App() {
       secondaryStatus: undefined,
       title: content.platform.scheduling.title,
       description: content.platform.scheduling.description,
-      images: [{ src: IMG_BOOKING_CREDITS, caption: designMockupSampleCaption }],
+      extraNote: undefined,
+      hasWatchIcons: false,
+      images: [
+        {
+          src: IMG_CALENDAR_WEEK,
+          title: content.platform.scheduling.imageTitles[0],
+          caption: conceptDesignCaption,
+        },
+        {
+          src: IMG_BOOKING_CREDITS,
+          title: content.platform.scheduling.imageTitles[1],
+          caption: conceptDesignCaption,
+        },
+      ],
     },
     {
       id: 'plat-payments',
       status: content.platform.payments.status,
-      secondaryStatus: undefined,
+      secondaryStatus: content.platform.payments.secondaryStatus,
       title: content.platform.payments.title,
       description: content.platform.payments.description,
-      images: [{ src: IMG_PAIR_BILLING, caption: designMockupSampleCaption }],
+      extraNote: content.platform.payments.onlinePaymentsNote,
+      hasWatchIcons: false,
+      images: [
+        {
+          src: IMG_PAIR_BILLING,
+          title: content.platform.payments.imageTitle,
+          caption: conceptDesignCaption,
+        },
+      ],
     },
     {
       id: 'plat-health',
       status: content.platform.healthDeclarations.status,
-      secondaryStatus: undefined,
+      secondaryStatus: content.platform.healthDeclarations.secondaryStatus,
       title: content.platform.healthDeclarations.title,
       description: content.platform.healthDeclarations.description,
+      extraNote: undefined,
+      hasWatchIcons: false,
       images: [
         {
           src: IMG_HEALTH_DECL,
-          caption: content.platform.healthDeclarations.caption,
+          title: content.platform.healthDeclarations.title,
+          caption: conceptDesignCaption,
         },
       ],
     },
@@ -377,58 +426,70 @@ export default function App() {
       secondaryStatus: undefined,
       title: content.platform.leadTracking.title,
       description: content.platform.leadTracking.description,
+      extraNote: undefined,
+      hasWatchIcons: false,
       images: [
         {
           src: IMG_LEAD_ATTR,
-          caption: content.platform.leadTracking.caption,
+          title: content.platform.leadTracking.title,
+          caption: conceptDesignCaption,
         },
       ],
     },
     {
       id: 'plat-client-area',
       status: content.platform.clientPersonalArea.status,
-      secondaryStatus: undefined,
+      secondaryStatus: content.platform.clientPersonalArea.secondaryStatus,
       title: content.platform.clientPersonalArea.title,
       description: content.platform.clientPersonalArea.description,
+      extraNote: content.platform.clientPersonalArea.watchSyncNote,
+      hasWatchIcons: true,
       images: [
         {
           src: IMG_TIMELINE,
-          caption: content.platform.clientPersonalArea.mockupCaption,
+          title: content.platform.clientPersonalArea.title,
+          caption: conceptDesignCaption,
         },
       ],
     },
   ];
 
-  // All 6 training mockups filled with their real image files
+  // All 6 training mockups with title above and caption below
   const trainingMockupGallery = [
     {
       id: 'mockup-0',
-      caption: content.platform.trainingPrograms.mockupCaptions[0],
+      title: content.platform.trainingPrograms.mockupTitles[0],
+      caption: conceptDesignCaption,
       src: IMG_PROG_EN,
     },
     {
       id: 'mockup-1',
-      caption: content.platform.trainingPrograms.mockupCaptions[1],
+      title: content.platform.trainingPrograms.mockupTitles[1],
+      caption: conceptDesignCaption,
       src: IMG_PROG_HE,
     },
     {
       id: 'mockup-2',
-      caption: content.platform.trainingPrograms.mockupCaptions[2],
+      title: content.platform.trainingPrograms.mockupTitles[2],
+      caption: conceptDesignCaption,
       src: IMG_LIVE_SESSION,
     },
     {
       id: 'mockup-3',
-      caption: content.platform.trainingPrograms.mockupCaptions[3],
+      title: content.platform.trainingPrograms.mockupTitles[3],
+      caption: conceptDesignCaption,
       src: IMG_EXERCISE_LIB,
     },
     {
       id: 'mockup-4',
-      caption: content.platform.trainingPrograms.mockupCaptions[4],
+      title: content.platform.trainingPrograms.mockupTitles[4],
+      caption: conceptDesignCaption,
       src: IMG_VERSIONS,
     },
     {
       id: 'mockup-5',
-      caption: content.platform.trainingPrograms.mockupCaptions[5],
+      title: content.platform.trainingPrograms.mockupTitles[5],
+      caption: conceptDesignCaption,
       src: IMG_EXERCISE_DETAIL,
     },
   ];
@@ -454,7 +515,7 @@ export default function App() {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={enlargedImage.caption}
+          aria-label={enlargedImage.caption || 'SEESA'}
           onClick={() => setEnlargedImage(null)}
           className="fixed inset-0 z-50 bg-[#141210]/95 backdrop-blur-sm p-4 sm:p-8 flex flex-col items-center justify-center cursor-zoom-out"
         >
@@ -476,7 +537,7 @@ export default function App() {
             </div>
             <img
               src={enlargedImage.src}
-              alt={enlargedImage.caption}
+              alt={enlargedImage.caption || 'SEESA'}
               referrerPolicy="no-referrer"
               className="w-full max-h-[80vh] object-contain bg-[#141210]"
             />
@@ -767,7 +828,7 @@ export default function App() {
 
             <div
               data-step-id="title-platform"
-              className={`section-title-slide max-w-3xl space-y-3 mb-6 ${
+              className={`section-title-slide max-w-3xl space-y-3 mb-2 ${
                 visibleSteps['title-platform'] ? 'is-visible' : ''
               }`}
             >
@@ -787,13 +848,24 @@ export default function App() {
               </p>
             </div>
 
+            {/* Everything a new coach needs, in one place (radial workspace hub + /workspace-nav.jpg) */}
+            <CoachWorkspaceHub
+              lang={lang}
+              onEnlarge={(src, cap) => setEnlargedImage({ src, caption: cap })}
+            />
+
             <div>
-              {/* Pinned Highlight: Training programs and exercise library (Real attached EN & HE images with exact gold rings) */}
+              {/* Pinned Highlight: Training programs and exercise library */}
               <PinnedHighlightBlock
                 badge={content.platform.trainingPrograms.status}
                 title={content.platform.trainingPrograms.title}
                 description={content.platform.trainingPrograms.description}
-                caption={content.platform.trainingPrograms.screen.caption}
+                imageTitle={
+                  content.platform.trainingPrograms.mockupTitles[
+                    lang === 'he' ? 1 : 0
+                  ]
+                }
+                caption={conceptDesignCaption}
                 imageSrc={lang === 'he' ? IMG_PROG_HE : IMG_PROG_EN}
                 onEnlargeImage={(src, cap) =>
                   setEnlargedImage({ src, caption: cap })
@@ -887,13 +959,13 @@ export default function App() {
                 }
               />
 
-              {/* All 6 Training Area Mockups filled with real images in dark frames + click to enlarge */}
-              <div className="py-6 border-b border-[#F4F1E8]/10 space-y-4">
+              {/* All 6 Training Area Mockups at full readable width with title above and caption below */}
+              <div className="py-6 border-b border-[#F4F1E8]/10 space-y-5">
                 <p className="text-xs sm:text-sm text-[#F4F1E8]/70">
                   {content.platform.trainingPrograms.moreMockupsNote}
                 </p>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="space-y-6">
                   {trainingMockupGallery.map((item, idx) => (
                     <div
                       key={item.id}
@@ -903,13 +975,14 @@ export default function App() {
                           '--step-delay': `${idx * 80}ms`,
                         } as React.CSSProperties
                       }
-                      className={`story-step-slide card-lift ${
+                      className={`story-step-slide card-lift w-full md:w-11/12 ${
                         visibleSteps[item.id] ? 'is-visible' : ''
                       }`}
                     >
                       <DarkImageFrame
                         src={item.src}
-                        alt={item.caption}
+                        alt={item.title}
+                        title={item.title}
                         caption={item.caption}
                         onEnlarge={(resolvedSrc, cap) =>
                           setEnlargedImage({ src: resolvedSrc, caption: cap })
@@ -919,30 +992,9 @@ export default function App() {
                   ))}
                 </div>
               </div>
-
-              {/* Marketplace: stays as one empty dark frame labelled "Planned, concept design" */}
-              <PinnedHighlightBlock
-                badge={content.roadmap.plannedLabel}
-                title={content.roadmap.plannedItems[6]}
-                description=""
-                caption={content.platform.trainingPrograms.screen.caption}
-                emptyFrameLabel="Planned, concept design"
-                steps={[
-                  {
-                    id: 'mkt-step-1',
-                    label: content.roadmap.plannedLabel,
-                    text: content.roadmap.plannedItems[6],
-                  },
-                  {
-                    id: 'mkt-step-2',
-                    label: content.what.items[0],
-                    text: content.what.items[3],
-                  },
-                ]}
-              />
             </div>
 
-            {/* Feature cards with large attached images in dark frames + click to enlarge */}
+            {/* Feature cards with large attached images in dark frames (title above + caption below) */}
             <div className="space-y-6 pt-6">
               {platformFeatureCards.map((card, idx) => (
                 <div
@@ -955,31 +1007,55 @@ export default function App() {
                     visibleSteps[card.id] ? 'is-visible' : ''
                   }`}
                 >
-                  <div className="space-y-2 max-w-2xl">
+                  <div className="space-y-2.5 max-w-3xl">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="inline-block px-2 py-0.5 border border-[#D8B04A]/60 text-[#D8B04A] text-xs font-medium">
+                      <span className="inline-block px-2.5 py-0.5 border border-[#D8B04A] bg-[#D8B04A] text-[#141210] text-xs font-semibold">
                         {card.status}
                       </span>
                       {card.secondaryStatus && (
-                        <span className="inline-block px-2 py-0.5 border border-[#F4F1E8]/25 text-[#F4F1E8]/75 text-xs font-medium">
-                          {card.secondaryStatus}
+                        <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 border border-[#F4F1E8]/30 text-[#F4F1E8]/80 text-xs font-medium">
+                          {card.hasWatchIcons && (
+                            <Watch
+                              aria-hidden="true"
+                              className="w-3.5 h-3.5 text-[#D8B04A]"
+                            />
+                          )}
+                          <span>{card.secondaryStatus}</span>
                         </span>
                       )}
                     </div>
+
                     <h3 className="text-base sm:text-lg font-semibold text-[#F4F1E8]">
                       {card.title}
                     </h3>
-                    <p className="text-sm text-[#F4F1E8]/75 leading-relaxed">
+
+                    <p className="text-sm text-[#F4F1E8]/80 leading-relaxed">
                       {card.description}
                     </p>
+
+                    {card.extraNote && (
+                      <div className="pt-1 flex items-start gap-2.5 text-sm text-[#F4F1E8]/75 leading-relaxed">
+                        {card.hasWatchIcons && (
+                          <div
+                            aria-hidden="true"
+                            className="flex items-center gap-1.5 pt-0.5 shrink-0 text-[#D8B04A]"
+                          >
+                            <Watch className="w-4 h-4" />
+                            <Smartphone className="w-4 h-4" />
+                          </div>
+                        )}
+                        <p>{card.extraNote}</p>
+                      </div>
+                    )}
                   </div>
 
-                  <div className="space-y-5">
+                  <div className="space-y-6 w-full md:w-11/12">
                     {card.images.map((imgItem, imgIdx) => (
                       <DarkImageFrame
                         key={`${card.id}-img-${imgIdx}`}
                         src={imgItem.src}
-                        alt={imgItem.caption}
+                        alt={imgItem.title}
+                        title={imgItem.title}
                         caption={imgItem.caption}
                         onEnlarge={(resolvedSrc, cap) =>
                           setEnlargedImage({ src: resolvedSrc, caption: cap })
@@ -991,8 +1067,42 @@ export default function App() {
               ))}
             </div>
 
+            {/* Bold Marketplace Block at the end of the Platform section, full width, distinct gold-framed card */}
+            <div
+              data-step-id="plat-marketplace-bold"
+              className={`story-step-slide card-lift mt-8 w-full bg-[#1B1815] border-2 border-[#D8B04A] shadow-[0_0_28px_rgba(216,176,74,0.14)] p-6 sm:p-8 space-y-6 ${
+                visibleSteps['plat-marketplace-bold'] ? 'is-visible' : ''
+              }`}
+            >
+              <div className="space-y-3 max-w-3xl">
+                <div>
+                  <span className="inline-block px-2.5 py-0.5 border border-[#D8B04A] text-[#D8B04A] text-xs font-medium">
+                    {content.platform.marketplace.badge}
+                  </span>
+                </div>
+                <h3 className="text-xl sm:text-2xl font-semibold text-[#F4F1E8] tracking-tight">
+                  {content.platform.marketplace.title}
+                </h3>
+                <p className="text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed">
+                  {content.platform.marketplace.text}
+                </p>
+              </div>
+
+              <div className="w-full">
+                <DarkImageFrame
+                  src={IMG_MARKETPLACE}
+                  alt={content.platform.marketplace.imageTitle}
+                  title={content.platform.marketplace.imageTitle}
+                  caption={content.platform.marketplace.caption}
+                  onEnlarge={(resolvedSrc, cap) =>
+                    setEnlargedImage({ src: resolvedSrc, caption: cap })
+                  }
+                />
+              </div>
+            </div>
+
             {/* Languages availability line */}
-            <div className="pt-5 text-xs sm:text-sm text-[#F4F1E8]/65">
+            <div className="pt-6 text-xs sm:text-sm text-[#F4F1E8]/65">
               {content.platform.clientPersonalArea.languagesNote}
             </div>
           </section>
@@ -1170,7 +1280,7 @@ export default function App() {
             </p>
           </section>
 
-          {/* SECTION: ROADMAP — ONE SINGLE VERTICAL LINE ON PHONE AND DESKTOP */}
+          {/* SECTION: ROADMAP — FIVE PHASES ALONG ONE VERTICAL LINEAR PATH */}
           <section
             id="roadmap"
             ref={roadmapRef}
@@ -1187,7 +1297,7 @@ export default function App() {
 
             <div
               data-step-id="title-roadmap"
-              className={`section-title-slide max-w-2xl space-y-2.5 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-7 ${
                 visibleSteps['title-roadmap'] ? 'is-visible' : ''
               }`}
             >
@@ -1210,7 +1320,7 @@ export default function App() {
             <RoadmapLinearPath lang={lang} />
           </section>
 
-          {/* SECTION: PLANNED BUSINESS MODEL */}
+          {/* SECTION: PLANNED BUSINESS MODEL (Unpriced Tiers) */}
           <section
             id="model"
             ref={modelRef}
@@ -1248,7 +1358,7 @@ export default function App() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
-              {content.model.tiers.map((tier, idx) => {
+              {content.model.tiers.map((tierText, idx) => {
                 const stepId = `model-tier-${idx}`;
                 return (
                   <div
@@ -1257,38 +1367,30 @@ export default function App() {
                     style={
                       { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/12 hover:border-[#D8B04A]/50 p-5 space-y-2 ${
+                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/12 hover:border-[#D8B04A]/50 p-5 flex items-center gap-3 ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <div className="text-xs font-medium text-[#D8B04A]">
-                      {tier.name}
-                    </div>
-                    <div
-                      className="text-xl sm:text-2xl font-semibold text-[#F4F1E8] num-readable"
-                      dir="ltr"
-                    >
-                      {tier.price}
-                    </div>
-                    <div className="text-sm text-[#F4F1E8]/75">
-                      {tier.clients}
-                    </div>
+                    <span
+                      aria-hidden="true"
+                      className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] shrink-0"
+                    />
+                    <span className="text-sm sm:text-base font-medium text-[#F4F1E8]">
+                      {tierText}
+                    </span>
                   </div>
                 );
               })}
             </div>
 
             <div className="space-y-2 text-sm text-[#F4F1E8]/75">
-              <p className="font-medium text-[#F4F1E8]/85">
-                {content.model.vatNote}
-              </p>
               {content.model.notes.map((note, idx) => (
                 <p key={idx}>{note}</p>
               ))}
             </div>
           </section>
 
-          {/* SECTION: OWNER AND TEAM (Founder portrait 160px round frame + SAYRIS logo) */}
+          {/* SECTION: OWNER AND TEAM (Founder portrait crop, rounded corners, no caption + SAYRIS logo) */}
           <section
             id="team"
             ref={teamRef}
@@ -1322,7 +1424,7 @@ export default function App() {
             </div>
 
             <div className="space-y-4 max-w-3xl">
-              {/* Founder Card with founder-portrait.jpg (160px round frame, thin gold border, click to enlarge) + SAYRIS Logo */}
+              {/* Founder Card with founder-portrait.jpg (portrait crop, rounded corners, no caption) + SAYRIS Logo */}
               <div
                 data-step-id="team-founder"
                 className={`story-step card-lift bg-[#1B1815] border border-[#F4F1E8]/12 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 ${

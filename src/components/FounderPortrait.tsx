@@ -32,9 +32,9 @@ export const FounderPortrait: React.FC<FounderPortraitProps> = ({
   return (
     <button
       type="button"
-      onClick={() => !failed && onEnlarge(currentSrc, altText)}
+      onClick={() => !failed && onEnlarge(currentSrc, '')}
       aria-label={altText}
-      className="w-40 h-40 rounded-full border border-[#D8B04A] bg-[#141210] overflow-hidden shrink-0 cursor-zoom-in relative block transition-opacity duration-500"
+      className="w-36 h-44 sm:w-40 sm:h-48 rounded-xl border border-[#D8B04A] bg-[#141210] overflow-hidden shrink-0 cursor-zoom-in relative block transition-opacity duration-500"
     >
       {!failed ? (
         <img

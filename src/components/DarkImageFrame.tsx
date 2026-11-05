@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 
 interface DarkImageFrameProps {
   src: string;
-  alt: string;
+  alt?: string;
+  title: string;
   caption: string;
   onEnlarge: (resolvedSrc: string, caption: string) => void;
   ring?: {
@@ -14,27 +15,45 @@ interface DarkImageFrameProps {
   };
 }
 
+const KNOWN_HASHED_FALLBACKS: Record<string, string> = {
+  'clients-list.jpg': '/assets/aistudio/clients-list_15a419dd.jpg',
+  'coach-client-overview.jpg':
+    '/assets/aistudio/coach-client-overview_c9551a73.jpg',
+  'checkin-review.jpg': '/assets/aistudio/checkin-review_63736271.jpg',
+  'nutrition-coach-editor.jpg':
+    '/assets/aistudio/nutrition-coach-editor_6cae3f60.jpg',
+  'nutrition-client-app.jpg':
+    '/assets/aistudio/nutrition-client-app_77cc5fa8.jpg',
+  'booking-credits.jpg': '/assets/aistudio/booking-credits_93ff9c83.jpg',
+  'pair-billing.jpg': '/assets/aistudio/pair-billing_6a549c1f.jpg',
+};
+
 export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
   src,
   alt,
+  title,
   caption,
   onEnlarge,
   ring,
 }) => {
-  // Build candidate paths so files in /public/ or /public/assets/aistudio/ resolve seamlessly
   const cleanName = src.replace(/^\/+/, '');
   const baseNoExt = cleanName.replace(/\.(jpg|jpeg|png|webp)$/i, '');
+  const hashedPath = KNOWN_HASHED_FALLBACKS[cleanName];
+
   const candidatePaths = Array.from(
-    new Set([
-      src,
-      `/${cleanName}`,
-      `/assets/aistudio/${cleanName}`,
-      `/img/${cleanName}`,
-      `/${baseNoExt}.jpg`,
-      `/${baseNoExt}.png`,
-      `/assets/aistudio/${baseNoExt}.jpg`,
-      `/assets/aistudio/${baseNoExt}.png`,
-    ])
+    new Set(
+      [
+        src,
+        `/${cleanName}`,
+        hashedPath,
+        `/assets/aistudio/${cleanName}`,
+        `/img/${cleanName}`,
+        `/${baseNoExt}.jpg`,
+        `/${baseNoExt}.png`,
+        `/assets/aistudio/${baseNoExt}.jpg`,
+        `/assets/aistudio/${baseNoExt}.png`,
+      ].filter(Boolean) as string[]
+    )
   );
 
   const [pathIdx, setPathIdx] = useState(0);
@@ -46,6 +65,7 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
   }, [src]);
 
   const currentSrc = candidatePaths[pathIdx] || src;
+  const resolvedAlt = alt || title;
 
   const handleError = () => {
     if (pathIdx + 1 < candidatePaths.length) {
@@ -56,34 +76,39 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
   };
 
   return (
-    <div className="bg-[#1B1815] border border-[#F4F1E8]/15 p-2.5 sm:p-3 space-y-2">
-      {/* Simple dark frame top bar */}
+    <figure className="w-full bg-[#1B1815] border border-[#F4F1E8]/15 p-3 sm:p-4 space-y-2.5">
+      {/* Title above the mockup or screenshot */}
       <div className="flex items-center justify-between pb-2 border-b border-[#F4F1E8]/10 px-1 gap-3">
         <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
-          <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
+          <span className="w-2 h-2 rounded-full bg-[#D8B04A]/60" />
           <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
           <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
         </div>
-        <span className="text-[11px] text-[#F4F1E8]/60 truncate">{caption}</span>
+        <div className="text-xs sm:text-sm font-medium text-[#F4F1E8] text-end">
+          {title}
+        </div>
       </div>
 
-      {/* Image surface with click-to-enlarge */}
+      {/* Image surface with click-to-enlarge (full width on phones, large on desktop) */}
       <button
         type="button"
-        onClick={() => !loadFailed && onEnlarge(currentSrc, caption)}
+        onClick={() => !loadFailed && onEnlarge(currentSrc, `${title}: ${caption}`)}
         className="relative block w-full overflow-hidden bg-[#141210] border border-[#F4F1E8]/10 cursor-zoom-in text-start group"
       >
         {!loadFailed ? (
           <img
             src={currentSrc}
-            alt={alt}
+            alt={resolvedAlt}
             referrerPolicy="no-referrer"
             onError={handleError}
             className="w-full h-auto block select-none"
           />
         ) : (
-          <div className="min-h-[220px] sm:min-h-[260px] w-full bg-[#141210] flex items-center justify-center p-6 text-center">
-            <span className="text-xs text-[#F4F1E8]/55">{caption}</span>
+          <div className="min-h-[240px] sm:min-h-[300px] w-full bg-[#141210] flex flex-col items-center justify-center p-6 text-center gap-1.5">
+            <span className="text-xs sm:text-sm font-medium text-[#F4F1E8]/75">
+              {title}
+            </span>
+            <span className="text-xs text-[#F4F1E8]/45">{caption}</span>
           </div>
         )}
 
@@ -103,6 +128,11 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
           />
         )}
       </button>
-    </div>
+
+      {/* Caption below the mockup or screenshot */}
+      <figcaption className="pt-0.5 px-1 text-xs text-[#F4F1E8]/65 leading-relaxed">
+        {caption}
+      </figcaption>
+    </figure>
   );
 };

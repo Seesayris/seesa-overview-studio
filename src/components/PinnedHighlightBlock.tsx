@@ -20,9 +20,9 @@ interface PinnedHighlightBlockProps {
   secondaryBadge?: string;
   title: string;
   description: string;
+  imageTitle: string;
   caption: string;
-  imageSrc?: string;
-  emptyFrameLabel?: 'Planned, concept design';
+  imageSrc: string;
   steps: ImageHighlightSpot[];
   onEnlargeImage?: (src: string, caption: string) => void;
 }
@@ -32,9 +32,9 @@ export const PinnedHighlightBlock: React.FC<PinnedHighlightBlockProps> = ({
   secondaryBadge,
   title,
   description,
+  imageTitle,
   caption,
   imageSrc,
-  emptyFrameLabel = 'Planned, concept design',
   steps,
   onEnlargeImage,
 }) => {
@@ -78,7 +78,7 @@ export const PinnedHighlightBlock: React.FC<PinnedHighlightBlockProps> = ({
   return (
     <div className="py-6 sm:py-8 border-b border-[#F4F1E8]/10 last:border-b-0">
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-        {/* Scrolling Step Captions Column (4 cols on lg so the real image frame is large) */}
+        {/* Scrolling Step Captions Column (4 cols on lg so the real image frame is 2/3 of content width) */}
         <div className="lg:col-span-4 space-y-4">
           <div className="space-y-2">
             <div className="flex flex-wrap items-center gap-2 text-xs">
@@ -140,50 +140,32 @@ export const PinnedHighlightBlock: React.FC<PinnedHighlightBlockProps> = ({
           </div>
         </div>
 
-        {/* Pinned Large Device Frame Column (8 cols on lg) */}
+        {/* Pinned Large Device Frame Column (8 cols on lg = two thirds of content width) */}
         <div className="lg:col-span-8 lg:sticky lg:top-20">
-          {imageSrc ? (
-            <div className="space-y-2.5">
-              <DarkImageFrame
-                src={imageSrc}
-                alt={caption}
-                caption={caption}
-                onEnlarge={(resolvedSrc, cap) =>
-                  onEnlargeImage && onEnlargeImage(resolvedSrc, cap)
-                }
-                ring={currentSpot?.ring}
-              />
+          <div className="space-y-2.5">
+            <DarkImageFrame
+              src={imageSrc}
+              alt={imageTitle}
+              title={imageTitle}
+              caption={caption}
+              onEnlarge={(resolvedSrc, cap) =>
+                onEnlargeImage && onEnlargeImage(resolvedSrc, cap)
+              }
+              ring={currentSpot?.ring}
+            />
 
-              {currentSpot && (
-                <div
-                  key={currentSpot.id}
-                  className="px-3.5 py-2 bg-[#1B1815] border border-[#D8B04A]/40 flex flex-wrap items-center justify-between gap-2 text-xs transition-opacity duration-300"
-                >
-                  <span className="text-[#D8B04A] font-medium">
-                    {currentSpot.label}
-                  </span>
-                  <span className="text-[#F4F1E8]/85">{currentSpot.text}</span>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="bg-[#1B1815] border border-[#F4F1E8]/15 p-2.5 sm:p-3">
-              <div className="flex items-center justify-between pb-2 mb-2 border-b border-[#F4F1E8]/10 px-1">
-                <div className="flex items-center gap-1.5" aria-hidden="true">
-                  <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
-                  <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
-                  <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
-                </div>
-                <span className="text-[11px] text-[#F4F1E8]/55">{caption}</span>
-              </div>
-
-              <div className="min-h-[240px] sm:min-h-[280px] bg-[#141210] border border-dashed border-[#F4F1E8]/20 flex flex-col items-center justify-center p-6 text-center">
-                <span className="text-xs sm:text-sm text-[#F4F1E8]/60 font-medium">
-                  {emptyFrameLabel}
+            {currentSpot && (
+              <div
+                key={currentSpot.id}
+                className="px-3.5 py-2 bg-[#1B1815] border border-[#D8B04A]/40 flex flex-wrap items-center justify-between gap-2 text-xs transition-opacity duration-300"
+              >
+                <span className="text-[#D8B04A] font-medium">
+                  {currentSpot.label}
                 </span>
+                <span className="text-[#F4F1E8]/85">{currentSpot.text}</span>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
     </div>
