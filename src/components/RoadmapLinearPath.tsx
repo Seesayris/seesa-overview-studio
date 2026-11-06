@@ -54,17 +54,7 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
       return 'bg-transparent text-[#D8B04A] border-[#D8B04A] font-medium';
     }
     // Planned (muted)
-    return 'bg-[#141210] text-[#F4F1E8]/60 border-[#F4F1E8]/25 font-normal';
-  };
-
-  const getChipContainerClasses = (status: ItemStatus) => {
-    if (status === 'live') {
-      return 'border-[#D8B04A]/55 bg-[#141210]';
-    }
-    if (status === 'inBuild') {
-      return 'border-[#D8B04A]/35 bg-[#141210]';
-    }
-    return 'border-[#F4F1E8]/15 bg-[#141210]/70';
+    return 'bg-transparent text-[#F4F1E8]/60 border-[#F4F1E8]/25 font-normal';
   };
 
   const legendBadges: { key: ItemStatus; label: string }[] = [
@@ -75,8 +65,8 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
 
   return (
     <div ref={containerRef} className="space-y-8">
-      {/* Badge Legend (Live gold, In build outlined, Planned muted) */}
-      <div className="flex flex-wrap items-center gap-3 p-3.5 bg-[#1B1815] border border-[#F4F1E8]/12 w-fit">
+      {/* Status Chips Legend (Live gold, In build outlined, Planned muted) — no outer box */}
+      <div className="flex flex-wrap items-center gap-3">
         {legendBadges.map((b) => {
           const isSelected = filter === b.key;
           return (
@@ -88,7 +78,7 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
               }
               className={`min-h-[36px] px-3 py-1 text-xs border transition-all flex items-center gap-2 ${getStatusBadgeClasses(
                 b.key
-              )} ${isSelected ? 'ring-2 ring-[#F4F1E8]/70' : ''}`}
+              )} ${isSelected ? 'ring-1 ring-[#F4F1E8]/70' : ''}`}
             >
               <span>{b.label}</span>
             </button>
@@ -101,7 +91,7 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
         {/* Continuous vertical path line (start on mobile, centered on desktop) */}
         <div
           aria-hidden="true"
-          className="absolute top-4 bottom-4 start-4 md:start-1/2 md:-translate-x-1/2 w-[2px] bg-[#D8B04A]/20"
+          className="absolute top-4 bottom-4 start-4 md:start-1/2 md:-translate-x-1/2 w-[1px] bg-[#D8B04A]/25"
         >
           <div
             className="gold-progress-fill w-full h-full bg-[#D8B04A] origin-top transition-transform duration-200"
@@ -134,7 +124,7 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
                   aria-hidden="true"
                   className={`
                     absolute top-4 start-0 md:start-1/2 md:-translate-x-1/2 z-10
-                    w-8 h-8 rounded-full border-2 flex items-center justify-center text-xs font-semibold transition-colors duration-300
+                    w-8 h-8 rounded-full border flex items-center justify-center text-xs font-semibold transition-colors duration-300
                     ${
                       isNodeReached
                         ? 'bg-[#D8B04A] border-[#D8B04A] text-[#141210] roadmap-node-reached'
@@ -145,10 +135,10 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
                   {phase.number}
                 </div>
 
-                {/* Phase Card: alternates left and right of the center line on desktop */}
+                {/* Roadmap Phase Card (one of the three places that keeps a box) */}
                 <div
                   className={`
-                    md:col-span-5 bg-[#1B1815] border border-[#F4F1E8]/15 hover:border-[#D8B04A]/50 transition-colors p-5 sm:p-6 space-y-4
+                    md:col-span-5 bg-[#1B1815] border border-[#F4F1E8]/15 p-5 sm:p-6 space-y-4
                     ${
                       isOddPhase
                         ? 'md:col-start-1 md:me-2'
@@ -157,9 +147,9 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
                   `}
                 >
                   <div className="space-y-1.5">
-                    <div className="flex items-center gap-2.5">
-                      <span className="inline-flex items-center justify-center w-6 h-6 rounded-full bg-[#D8B04A]/15 border border-[#D8B04A]/60 text-[#D8B04A] text-xs font-semibold shrink-0">
-                        {phase.number}
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-xs font-semibold text-[#D8B04A]">
+                        {phase.number}.
                       </span>
                       <h3 className="text-base sm:text-lg font-semibold text-[#F4F1E8] tracking-tight">
                         {phase.title}
@@ -170,14 +160,12 @@ export const RoadmapLinearPath: React.FC<RoadmapLinearPathProps> = ({
                     </p>
                   </div>
 
-                  {/* Phase items as chips with a status badge: Live (gold), In build (outlined), Planned (muted) */}
-                  <div className="flex flex-wrap gap-2 pt-1">
+                  {/* Phase items with thin 1px dividers and status chips */}
+                  <div className="divide-y divide-[#F4F1E8]/10 border-t border-[#F4F1E8]/10">
                     {visibleItems.map((item) => (
                       <div
                         key={item.label}
-                        className={`inline-flex flex-wrap items-center gap-2 px-3 py-1.5 border text-xs sm:text-[13px] leading-snug ${getChipContainerClasses(
-                          item.status
-                        )}`}
+                        className="py-2.5 flex items-center justify-between gap-3 text-xs sm:text-[13px] leading-snug"
                       >
                         <span className="text-[#F4F1E8]/90">{item.label}</span>
                         <span

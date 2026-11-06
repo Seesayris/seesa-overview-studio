@@ -16,6 +16,14 @@ interface DarkImageFrameProps {
 }
 
 const KNOWN_HASHED_FALLBACKS: Record<string, string> = {
+  '01_program_builder_english.png':
+    '/assets/aistudio/01_program_builder_english_b64f3549.png',
+  '02_live_session_history_and_actions.png':
+    '/assets/aistudio/02_live_session_history_and_actions_0bf979ca.png',
+  '04_program_builder_hebrew_rtl.png':
+    '/assets/aistudio/04_program_builder_hebrew_rtl_2fd19368.png',
+  '05_versions_and_publish_independent_copies.png':
+    '/assets/aistudio/05_versions_and_publish_independent_copies_04f25414.png',
   'clients-list.jpg': '/assets/aistudio/clients-list_15a419dd.jpg',
   'coach-client-overview.jpg':
     '/assets/aistudio/coach-client-overview_c9551a73.jpg',
@@ -76,24 +84,19 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
   };
 
   return (
-    <figure className="w-full bg-[#1B1815] border border-[#F4F1E8]/15 p-3 sm:p-4 space-y-2.5">
-      {/* Title above the mockup or screenshot */}
-      <div className="flex items-center justify-between pb-2 border-b border-[#F4F1E8]/10 px-1 gap-3">
-        <div className="flex items-center gap-1.5 shrink-0" aria-hidden="true">
-          <span className="w-2 h-2 rounded-full bg-[#D8B04A]/60" />
-          <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
-          <span className="w-2 h-2 rounded-full bg-[#F4F1E8]/20" />
-        </div>
-        <div className="text-xs sm:text-sm font-medium text-[#F4F1E8] text-end">
-          {title}
-        </div>
+    <figure className="w-full space-y-2">
+      {/* Small title above the image */}
+      <div className="text-xs sm:text-sm font-medium text-[#F4F1E8]">
+        {title}
       </div>
 
-      {/* Image surface with click-to-enlarge (full width on phones, large on desktop) */}
+      {/* Image sitting directly on the page background (no window bar, no border, no padding, no box) */}
       <button
         type="button"
-        onClick={() => !loadFailed && onEnlarge(currentSrc, `${title}: ${caption}`)}
-        className="relative block w-full overflow-hidden bg-[#141210] border border-[#F4F1E8]/10 cursor-zoom-in text-start group"
+        onClick={() =>
+          !loadFailed && onEnlarge(currentSrc, `${title}: ${caption}`)
+        }
+        className="relative block w-full overflow-hidden cursor-zoom-in text-start"
       >
         {!loadFailed ? (
           <img
@@ -104,7 +107,7 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
             className="w-full h-auto block select-none"
           />
         ) : (
-          <div className="min-h-[240px] sm:min-h-[300px] w-full bg-[#141210] flex flex-col items-center justify-center p-6 text-center gap-1.5">
+          <div className="py-8 w-full flex flex-col items-start justify-center gap-1">
             <span className="text-xs sm:text-sm font-medium text-[#F4F1E8]/75">
               {title}
             </span>
@@ -129,8 +132,8 @@ export const DarkImageFrame: React.FC<DarkImageFrameProps> = ({
         )}
       </button>
 
-      {/* Caption below the mockup or screenshot */}
-      <figcaption className="pt-0.5 px-1 text-xs text-[#F4F1E8]/65 leading-relaxed">
+      {/* Caption below the image */}
+      <figcaption className="text-xs text-[#F4F1E8]/65 leading-relaxed">
         {caption}
       </figcaption>
     </figure>

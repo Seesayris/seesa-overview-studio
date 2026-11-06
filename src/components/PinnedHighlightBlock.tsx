@@ -76,97 +76,77 @@ export const PinnedHighlightBlock: React.FC<PinnedHighlightBlockProps> = ({
   const currentSpot = steps[activeStep] || steps[0];
 
   return (
-    <div className="py-6 sm:py-8 border-b border-[#F4F1E8]/10 last:border-b-0">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-        {/* Scrolling Step Captions Column (4 cols on lg so the real image frame is 2/3 of content width) */}
-        <div className="lg:col-span-4 space-y-4">
-          <div className="space-y-2">
-            <div className="flex flex-wrap items-center gap-2 text-xs">
-              <span className="px-2 py-0.5 border border-[#D8B04A]/60 text-[#D8B04A] font-medium">
-                {badge}
+    <div className="space-y-6">
+      <div className="space-y-2 max-w-3xl">
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          {/* Status chip */}
+          <span className="px-2.5 py-0.5 border border-[#D8B04A] text-[#D8B04A] font-medium">
+            {badge}
+          </span>
+          {secondaryBadge && (
+            <span className="px-2.5 py-0.5 border border-[#F4F1E8]/25 text-[#F4F1E8]/75 font-medium">
+              {secondaryBadge}
+            </span>
+          )}
+        </div>
+
+        <h3 className="text-lg sm:text-xl font-semibold text-[#F4F1E8] tracking-tight">
+          {title}
+        </h3>
+
+        {description && (
+          <p className="text-sm text-[#F4F1E8]/75 leading-relaxed">
+            {description}
+          </p>
+        )}
+      </div>
+
+      {/* Step Captions as a plain list with thin 1px divider lines (no background fill, no outer box) */}
+      <div className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10">
+        {steps.map((step, idx) => {
+          const isSelected = activeStep === idx;
+          return (
+            <div
+              key={step.id}
+              ref={(el) => {
+                stepRefs.current[idx] = el;
+              }}
+              onClick={() => setActiveStep(idx)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setActiveStep(idx);
+                }
+              }}
+              className={`py-3 flex flex-col sm:flex-row sm:items-baseline sm:justify-between gap-1 sm:gap-6 cursor-pointer transition-colors ${
+                isSelected ? 'text-[#F4F1E8]' : 'text-[#F4F1E8]/60 hover:text-[#F4F1E8]/85'
+              }`}
+            >
+              <span className="text-xs font-medium text-[#D8B04A] shrink-0">
+                {step.label}
               </span>
-              {secondaryBadge && (
-                <span className="px-2 py-0.5 border border-[#F4F1E8]/25 text-[#F4F1E8]/75 font-medium">
-                  {secondaryBadge}
-                </span>
-              )}
+              <span className="text-xs sm:text-sm leading-relaxed">
+                {step.text}
+              </span>
             </div>
+          );
+        })}
+      </div>
 
-            <h3 className="text-lg sm:text-xl font-semibold text-[#F4F1E8] tracking-tight">
-              {title}
-            </h3>
-
-            {description && (
-              <p className="text-sm text-[#F4F1E8]/75 leading-relaxed">
-                {description}
-              </p>
-            )}
-          </div>
-
-          {/* Scroll-triggered Step Captions */}
-          <div className="space-y-2.5 pt-1">
-            {steps.map((step, idx) => {
-              const isSelected = activeStep === idx;
-              return (
-                <div
-                  key={step.id}
-                  ref={(el) => {
-                    stepRefs.current[idx] = el;
-                  }}
-                  onClick={() => setActiveStep(idx)}
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                      e.preventDefault();
-                      setActiveStep(idx);
-                    }
-                  }}
-                  className={`card-lift min-h-[44px] p-3.5 border transition-colors cursor-pointer ${
-                    isSelected
-                      ? 'bg-[#1B1815] border-[#D8B04A] text-[#F4F1E8]'
-                      : 'bg-[#1B1815]/45 border-[#F4F1E8]/10 text-[#F4F1E8]/65 hover:border-[#F4F1E8]/25'
-                  }`}
-                >
-                  <div className="text-[11px] text-[#D8B04A] font-medium mb-0.5">
-                    {step.label}
-                  </div>
-                  <div className="text-xs sm:text-sm leading-relaxed">
-                    {step.text}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Pinned Large Device Frame Column (8 cols on lg = two thirds of content width) */}
-        <div className="lg:col-span-8 lg:sticky lg:top-20">
-          <div className="space-y-2.5">
-            <DarkImageFrame
-              src={imageSrc}
-              alt={imageTitle}
-              title={imageTitle}
-              caption={caption}
-              onEnlarge={(resolvedSrc, cap) =>
-                onEnlargeImage && onEnlargeImage(resolvedSrc, cap)
-              }
-              ring={currentSpot?.ring}
-            />
-
-            {currentSpot && (
-              <div
-                key={currentSpot.id}
-                className="px-3.5 py-2 bg-[#1B1815] border border-[#D8B04A]/40 flex flex-wrap items-center justify-between gap-2 text-xs transition-opacity duration-300"
-              >
-                <span className="text-[#D8B04A] font-medium">
-                  {currentSpot.label}
-                </span>
-                <span className="text-[#F4F1E8]/85">{currentSpot.text}</span>
-              </div>
-            )}
-          </div>
-        </div>
+      {/* Full column width image directly on the page background */}
+      <div className="w-full">
+        <DarkImageFrame
+          src={imageSrc}
+          alt={imageTitle}
+          title={imageTitle}
+          caption={caption}
+          onEnlarge={(resolvedSrc, cap) =>
+            onEnlargeImage && onEnlargeImage(resolvedSrc, cap)
+          }
+          ring={currentSpot?.ring}
+        />
       </div>
     </div>
   );

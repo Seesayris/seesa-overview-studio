@@ -13,12 +13,10 @@ import { DarkImageFrame } from './components/DarkImageFrame';
 import { FounderPortrait } from './components/FounderPortrait';
 import { CoachWorkspaceHub } from './components/CoachWorkspaceHub';
 
-const IMG_PROG_EN = '/assets/aistudio/01_program_builder_english_b64f3549.png';
-const IMG_PROG_HE = '/assets/aistudio/04_program_builder_hebrew_rtl_2fd19368.png';
-const IMG_LIVE_SESSION =
-  '/assets/aistudio/02_live_session_history_and_actions_0bf979ca.png';
-const IMG_VERSIONS =
-  '/assets/aistudio/05_versions_and_publish_independent_copies_04f25414.png';
+const IMG_PROG_EN = '/01_program_builder_english.png';
+const IMG_PROG_HE = '/04_program_builder_hebrew_rtl.png';
+const IMG_LIVE_SESSION = '/02_live_session_history_and_actions.png';
+const IMG_VERSIONS = '/05_versions_and_publish_independent_copies.png';
 const IMG_EXERCISE_LIB = '/library-screen.jpg';
 const IMG_EXERCISE_DETAIL = '/exercise-detail.jpg';
 const IMG_HEALTH_DECL = '/health-declaration-review.jpg';
@@ -248,7 +246,7 @@ export default function App() {
     };
   }, []);
 
-  // IntersectionObserver for staggered step cards and section title slides
+  // IntersectionObserver for staggered step items and section title slides
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)'
@@ -318,7 +316,6 @@ export default function App() {
 
   const conceptDesignCaption = content.platform.captions.conceptDesign;
 
-  // Feature cards in Platform section, each with large image(s) (full width on phones, at least two thirds on desktop), title above and caption below
   const platformFeatureCards = [
     {
       id: 'plat-checkins',
@@ -454,14 +451,8 @@ export default function App() {
     },
   ];
 
-  // All 6 training mockups with title above and caption below
+  // Training mockups with title above and caption below (excluding duplicate "Program builder, English")
   const trainingMockupGallery = [
-    {
-      id: 'mockup-0',
-      title: content.platform.trainingPrograms.mockupTitles[0],
-      caption: conceptDesignCaption,
-      src: IMG_PROG_EN,
-    },
     {
       id: 'mockup-1',
       title: content.platform.trainingPrograms.mockupTitles[1],
@@ -521,7 +512,7 @@ export default function App() {
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="max-w-6xl w-full bg-[#1B1815] border border-[#D8B04A]/45 p-3 sm:p-4 space-y-3"
+            className="max-w-6xl w-full space-y-3"
           >
             <div className="flex items-center justify-between gap-4">
               <span className="text-xs sm:text-sm text-[#F4F1E8]/85">
@@ -530,7 +521,7 @@ export default function App() {
               <button
                 type="button"
                 onClick={() => setEnlargedImage(null)}
-                className="min-h-[36px] min-w-[36px] px-3 py-1 bg-[#141210] border border-[#F4F1E8]/20 hover:border-[#D8B04A] text-xs text-[#F4F1E8]"
+                className="min-h-[36px] min-w-[36px] px-3 py-1 text-sm text-[#F4F1E8]/80 hover:text-[#D8B04A]"
               >
                 ×
               </button>
@@ -539,7 +530,7 @@ export default function App() {
               src={enlargedImage.src}
               alt={enlargedImage.caption || 'SEESA'}
               referrerPolicy="no-referrer"
-              className="w-full max-h-[80vh] object-contain bg-[#141210]"
+              className="w-full max-h-[82vh] object-contain"
             />
           </div>
         </div>
@@ -547,7 +538,7 @@ export default function App() {
 
       {/* Slim Sticky Navigation */}
       <header className="sticky top-0 z-40 bg-[#141210]/92 backdrop-blur-md border-b border-[#F4F1E8]/10">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 md:px-10 h-14 flex items-center justify-between gap-4">
+        <div className="max-w-[1100px] mx-auto px-4 sm:px-6 md:px-10 h-14 flex items-center justify-between gap-4">
           {/* Brand Logo */}
           <a
             href="#top"
@@ -588,25 +579,28 @@ export default function App() {
           </nav>
 
           {/* Language Toggle: EN / עברית */}
-          <div className="shrink-0 flex items-center border border-[#F4F1E8]/15 bg-[#1B1815]">
+          <div className="shrink-0 flex items-center gap-1">
             <button
               type="button"
               onClick={() => handleSwitchLanguage('en')}
-              className={`min-h-[44px] min-w-[44px] px-2.5 text-xs font-medium transition-colors ${
+              className={`min-h-[36px] px-2.5 text-xs font-medium transition-colors ${
                 lang === 'en'
-                  ? 'bg-[#D8B04A] text-[#141210]'
-                  : 'text-[#F4F1E8]/75 hover:text-[#F4F1E8]'
+                  ? 'text-[#D8B04A] font-semibold'
+                  : 'text-[#F4F1E8]/65 hover:text-[#F4F1E8]'
               }`}
             >
               {content.header.en}
             </button>
+            <span aria-hidden="true" className="text-[#F4F1E8]/25 text-xs">
+              /
+            </span>
             <button
               type="button"
               onClick={() => handleSwitchLanguage('he')}
-              className={`min-h-[44px] min-w-[52px] px-2.5 text-xs font-medium transition-colors ${
+              className={`min-h-[36px] px-2.5 text-xs font-medium transition-colors ${
                 lang === 'he'
-                  ? 'bg-[#D8B04A] text-[#141210]'
-                  : 'text-[#F4F1E8]/75 hover:text-[#F4F1E8]'
+                  ? 'text-[#D8B04A] font-semibold'
+                  : 'text-[#F4F1E8]/65 hover:text-[#F4F1E8]'
               }`}
             >
               {content.header.he}
@@ -615,18 +609,18 @@ export default function App() {
         </div>
       </header>
 
-      {/* Main Continuous Scroll Story Container with cross-fade on language switch */}
+      {/* Main Continuous Scroll Story Container (1100px desktop width, 16px side padding on phones) */}
       <main
         ref={storyContainerRef}
-        className={`lang-crossfade max-w-5xl mx-auto px-4 sm:px-6 md:px-10 pt-6 pb-16 relative ${
+        className={`lang-crossfade max-w-[1100px] mx-auto px-4 sm:px-6 md:px-10 pt-8 pb-20 relative ${
           isFadingLang ? 'lang-crossfade-fading' : ''
         }`}
       >
-        <div className="relative ps-7 sm:ps-12 md:ps-16">
+        <div className="relative ps-6 sm:ps-10 md:ps-14">
           {/* The Vertical Gold Line along the reading-start edge */}
           <div
             aria-hidden="true"
-            className="absolute top-2 bottom-2 start-2 sm:start-4 w-[1px] bg-[#D8B04A]/20"
+            className="absolute top-2 bottom-2 start-1.5 sm:start-3 w-[1px] bg-[#D8B04A]/20"
           >
             <div
               className="gold-progress-fill w-full h-full bg-[#D8B04A] origin-top transition-transform duration-150 ease-out"
@@ -634,17 +628,17 @@ export default function App() {
             />
           </div>
 
-          {/* SECTION: TOP (HERO) — SEESA logo with soft gold glint on load */}
+          {/* SECTION: TOP (HERO) — 56px spacing on phones, 96px on desktop */}
           <section
             id="top"
             ref={topRef}
-            className="relative scroll-mt-20 pt-2 pb-12 sm:pb-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 pt-2 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-4 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-4 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.top
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
@@ -683,7 +677,7 @@ export default function App() {
                     e.preventDefault();
                     scrollToSection('roadmap');
                   }}
-                  className="card-lift min-h-[44px] inline-flex items-center px-5 py-2.5 text-sm font-medium text-[#141210] bg-[#D8B04A] hover:bg-[#D8B04A]/90 transition-colors whitespace-nowrap"
+                  className="min-h-[44px] inline-flex items-center px-5 py-2.5 text-sm font-medium text-[#141210] bg-[#D8B04A] hover:bg-[#D8B04A]/90 transition-colors whitespace-nowrap"
                 >
                   {content.top.button}
                 </a>
@@ -691,24 +685,24 @@ export default function App() {
             </div>
           </section>
 
-          {/* SECTION: PROBLEM */}
+          {/* SECTION: PROBLEM — plain list with 1px divider line between items */}
           <section
             id="problem"
             ref={problemRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.problem
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-problem"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-problem'] ? 'is-visible' : ''
               }`}
             >
@@ -724,47 +718,45 @@ export default function App() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl">
               {content.problem.points.map((point, idx) => {
                 const stepId = `problem-point-${idx}`;
                 return (
-                  <div
+                  <li
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 hover:border-[#D8B04A]/45 p-5 ${
+                    className={`story-step-slide py-4 text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <p className="text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed">
-                      {point}
-                    </p>
-                  </div>
+                    {point}
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </section>
 
-          {/* SECTION: WHAT SEESA IS */}
+          {/* SECTION: WHAT SEESA IS — plain list with 1px divider line between items */}
           <section
             id="what"
             ref={whatRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.what
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-what"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-3 mb-6 ${
                 visibleSteps['title-what'] ? 'is-visible' : ''
               }`}
             >
@@ -784,51 +776,45 @@ export default function App() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+            <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl">
               {content.what.items.map((item, idx) => {
                 const stepId = `what-item-${idx}`;
                 return (
-                  <div
+                  <li
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 hover:border-[#D8B04A]/45 p-4 flex items-center gap-3 ${
+                    className={`story-step-slide py-3.5 text-sm sm:text-base font-medium text-[#F4F1E8] ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] shrink-0"
-                    />
-                    <span className="text-sm sm:text-base font-medium text-[#F4F1E8]">
-                      {item}
-                    </span>
-                  </div>
+                    {item}
+                  </li>
                 );
               })}
-            </div>
+            </ul>
           </section>
 
           {/* SECTION: PLATFORM */}
           <section
             id="platform"
             ref={platformRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24 space-y-14 md:space-y-20"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.platform
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-platform"
-              className={`section-title-slide max-w-3xl space-y-3 mb-2 ${
+              className={`section-title-slide max-w-3xl space-y-3 ${
                 visibleSteps['title-platform'] ? 'is-visible' : ''
               }`}
             >
@@ -848,14 +834,14 @@ export default function App() {
               </p>
             </div>
 
-            {/* Everything a new coach needs, in one place (radial workspace hub + /workspace-nav.jpg) */}
+            {/* Everything a new coach needs, in one place */}
             <CoachWorkspaceHub
               lang={lang}
               onEnlarge={(src, cap) => setEnlargedImage({ src, caption: cap })}
             />
 
-            <div>
-              {/* Pinned Highlight: Training programs and exercise library */}
+            {/* Training programs and exercise library */}
+            <div className="space-y-12">
               <PinnedHighlightBlock
                 badge={content.platform.trainingPrograms.status}
                 title={content.platform.trainingPrograms.title}
@@ -959,13 +945,13 @@ export default function App() {
                 }
               />
 
-              {/* All 6 Training Area Mockups at full readable width with title above and caption below */}
-              <div className="py-6 border-b border-[#F4F1E8]/10 space-y-5">
+              {/* Training Area Mockups at full column width directly on the page background */}
+              <div className="space-y-10">
                 <p className="text-xs sm:text-sm text-[#F4F1E8]/70">
                   {content.platform.trainingPrograms.moreMockupsNote}
                 </p>
 
-                <div className="space-y-6">
+                <div className="space-y-12">
                   {trainingMockupGallery.map((item, idx) => (
                     <div
                       key={item.id}
@@ -975,7 +961,7 @@ export default function App() {
                           '--step-delay': `${idx * 80}ms`,
                         } as React.CSSProperties
                       }
-                      className={`story-step-slide card-lift w-full md:w-11/12 ${
+                      className={`story-step-slide w-full ${
                         visibleSteps[item.id] ? 'is-visible' : ''
                       }`}
                     >
@@ -994,16 +980,16 @@ export default function App() {
               </div>
             </div>
 
-            {/* Feature cards with large attached images in dark frames (title above + caption below) */}
-            <div className="space-y-6 pt-6">
+            {/* Platform feature sections (no outer card box; only status chips have boxes) */}
+            <div className="space-y-14 md:space-y-20">
               {platformFeatureCards.map((card, idx) => (
                 <div
                   key={card.id}
                   data-step-id={card.id}
                   style={
-                    { '--step-delay': `${idx * 85}ms` } as React.CSSProperties
+                    { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                   }
-                  className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 p-5 sm:p-6 space-y-5 ${
+                  className={`story-step-slide space-y-6 ${
                     visibleSteps[card.id] ? 'is-visible' : ''
                   }`}
                 >
@@ -1025,11 +1011,11 @@ export default function App() {
                       )}
                     </div>
 
-                    <h3 className="text-base sm:text-lg font-semibold text-[#F4F1E8]">
+                    <h3 className="text-lg sm:text-xl font-semibold text-[#F4F1E8]">
                       {card.title}
                     </h3>
 
-                    <p className="text-sm text-[#F4F1E8]/80 leading-relaxed">
+                    <p className="text-sm sm:text-base text-[#F4F1E8]/80 leading-relaxed">
                       {card.description}
                     </p>
 
@@ -1049,7 +1035,7 @@ export default function App() {
                     )}
                   </div>
 
-                  <div className="space-y-6 w-full md:w-11/12">
+                  <div className="space-y-10 w-full">
                     {card.images.map((imgItem, imgIdx) => (
                       <DarkImageFrame
                         key={`${card.id}-img-${imgIdx}`}
@@ -1067,16 +1053,16 @@ export default function App() {
               ))}
             </div>
 
-            {/* Bold Marketplace Block at the end of the Platform section, full width, distinct gold-framed card */}
+            {/* Gold-framed "A discovery platform" card — the one gold-framed accent card on the page */}
             <div
               data-step-id="plat-marketplace-bold"
-              className={`story-step-slide card-lift mt-8 w-full bg-[#1B1815] border-2 border-[#D8B04A] shadow-[0_0_28px_rgba(216,176,74,0.14)] p-6 sm:p-8 space-y-6 ${
+              className={`story-step-slide w-full border-2 border-[#D8B04A] p-6 sm:p-8 space-y-6 ${
                 visibleSteps['plat-marketplace-bold'] ? 'is-visible' : ''
               }`}
             >
               <div className="space-y-3 max-w-3xl">
                 <div>
-                  <span className="inline-block px-2.5 py-0.5 border border-[#D8B04A] text-[#D8B04A] text-xs font-medium">
+                  <span className="inline-block px-2.5 py-0.5 border border-[#F4F1E8]/30 text-[#F4F1E8]/75 text-xs font-medium">
                     {content.platform.marketplace.badge}
                   </span>
                 </div>
@@ -1102,29 +1088,29 @@ export default function App() {
             </div>
 
             {/* Languages availability line */}
-            <div className="pt-6 text-xs sm:text-sm text-[#F4F1E8]/65">
+            <div className="text-xs sm:text-sm text-[#F4F1E8]/65">
               {content.platform.clientPersonalArea.languagesNote}
             </div>
           </section>
 
-          {/* SECTION: STRUCTURE (HOW IT IS ORGANIZED & ROLES AND PERMISSIONS) */}
+          {/* SECTION: STRUCTURE — plain two-column / list rows with 1px dividers */}
           <section
             id="structure"
             ref={structureRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.structure
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-structure"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-structure'] ? 'is-visible' : ''
               }`}
             >
@@ -1140,8 +1126,8 @@ export default function App() {
               </h2>
             </div>
 
-            {/* Three layers */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-10">
+            {/* Three layers as short two-column text with 1px divider lines */}
+            <div className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl mb-10">
               {content.structure.layers.map((layer, idx) => {
                 const stepId = `structure-layer-${idx}`;
                 return (
@@ -1149,16 +1135,16 @@ export default function App() {
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 hover:border-[#D8B04A]/45 p-5 space-y-2 ${
+                    className={`story-step-slide py-4 grid grid-cols-1 md:grid-cols-12 gap-1.5 md:gap-6 items-baseline ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <h3 className="text-base font-semibold text-[#F4F1E8]">
+                    <h3 className="md:col-span-4 text-sm sm:text-base font-semibold text-[#F4F1E8]">
                       {layer.title}
                     </h3>
-                    <p className="text-sm text-[#F4F1E8]/75 leading-relaxed">
+                    <p className="md:col-span-8 text-sm sm:text-base text-[#F4F1E8]/78 leading-relaxed">
                       {layer.body}
                     </p>
                   </div>
@@ -1166,41 +1152,35 @@ export default function App() {
               })}
             </div>
 
-            {/* Roles and permissions */}
-            <div className="space-y-5">
+            {/* Six roles as a plain list with 1px divider lines */}
+            <div className="space-y-4 max-w-3xl">
               <div className="text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
                 {content.structure.rolesLabel}
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+              <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10">
                 {content.structure.roles.map((role, idx) => {
                   const stepId = `structure-role-${idx}`;
                   return (
-                    <div
+                    <li
                       key={stepId}
                       data-step-id={stepId}
                       style={
                         {
-                          '--step-delay': `${idx * 80}ms`,
+                          '--step-delay': `${idx * 70}ms`,
                         } as React.CSSProperties
                       }
-                      className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 px-4 py-3 flex items-center gap-2.5 ${
+                      className={`story-step-slide py-3 text-sm sm:text-base font-medium text-[#F4F1E8] ${
                         visibleSteps[stepId] ? 'is-visible' : ''
                       }`}
                     >
-                      <span
-                        aria-hidden="true"
-                        className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] shrink-0"
-                      />
-                      <span className="text-sm font-medium text-[#F4F1E8]">
-                        {role}
-                      </span>
-                    </div>
+                      {role}
+                    </li>
                   );
                 })}
-              </div>
+              </ul>
 
-              <div className="space-y-2.5 pt-2 max-w-3xl">
+              <div className="space-y-2.5 pt-2">
                 <p className="text-sm text-[#F4F1E8]/85 leading-relaxed">
                   {content.structure.ownerIsolationNote}
                 </p>
@@ -1216,24 +1196,24 @@ export default function App() {
             </div>
           </section>
 
-          {/* SECTION: SECURITY AND PRIVACY */}
+          {/* SECTION: SECURITY AND PRIVACY — plain list with 1px divider lines */}
           <section
             id="security"
             ref={securityRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.security
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-security"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-security'] ? 'is-visible' : ''
               }`}
             >
@@ -1249,33 +1229,27 @@ export default function App() {
               </h2>
             </div>
 
-            <div className="space-y-3 max-w-3xl">
+            <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl">
               {content.security.points.map((point, idx) => {
                 const stepId = `security-point-${idx}`;
                 return (
-                  <div
+                  <li
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 85}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 70}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 hover:border-[#D8B04A]/45 p-4 flex items-start gap-3 ${
+                    className={`story-step-slide py-3.5 text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] mt-2 shrink-0"
-                    />
-                    <p className="text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed">
-                      {point}
-                    </p>
-                  </div>
+                    {point}
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
-            <p className="mt-6 text-xs sm:text-sm text-[#F4F1E8]/65">
+            <p className="mt-5 text-xs sm:text-sm text-[#F4F1E8]/65">
               {content.security.disclaimer}
             </p>
           </section>
@@ -1284,13 +1258,13 @@ export default function App() {
           <section
             id="roadmap"
             ref={roadmapRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.roadmap
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
@@ -1320,24 +1294,24 @@ export default function App() {
             <RoadmapLinearPath lang={lang} />
           </section>
 
-          {/* SECTION: PLANNED BUSINESS MODEL (Unpriced Tiers) */}
+          {/* SECTION: PLANNED BUSINESS MODEL — plain list with 1px divider lines */}
           <section
             id="model"
             ref={modelRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.model
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-model"
-              className={`section-title-slide max-w-3xl space-y-2.5 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-model'] ? 'is-visible' : ''
               }`}
             >
@@ -1357,57 +1331,51 @@ export default function App() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+            <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl mb-5">
               {content.model.tiers.map((tierText, idx) => {
                 const stepId = `model-tier-${idx}`;
                 return (
-                  <div
+                  <li
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/12 hover:border-[#D8B04A]/50 p-5 flex items-center gap-3 ${
+                    className={`story-step-slide py-3.5 text-sm sm:text-base font-medium text-[#F4F1E8] ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] shrink-0"
-                    />
-                    <span className="text-sm sm:text-base font-medium text-[#F4F1E8]">
-                      {tierText}
-                    </span>
-                  </div>
+                    {tierText}
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
-            <div className="space-y-2 text-sm text-[#F4F1E8]/75">
+            <div className="space-y-2 text-sm text-[#F4F1E8]/75 max-w-3xl">
               {content.model.notes.map((note, idx) => (
                 <p key={idx}>{note}</p>
               ))}
             </div>
           </section>
 
-          {/* SECTION: OWNER AND TEAM (Founder portrait crop, rounded corners, no caption + SAYRIS logo) */}
+          {/* SECTION: OWNER AND TEAM — plain rows with 1px divider lines */}
           <section
             id="team"
             ref={teamRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.team
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-team"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-team'] ? 'is-visible' : ''
               }`}
             >
@@ -1423,11 +1391,11 @@ export default function App() {
               </h2>
             </div>
 
-            <div className="space-y-4 max-w-3xl">
-              {/* Founder Card with founder-portrait.jpg (portrait crop, rounded corners, no caption) + SAYRIS Logo */}
+            <div className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl">
+              {/* Founder row with portrait crop, rounded corners, no caption + SAYRIS Logo */}
               <div
                 data-step-id="team-founder"
-                className={`story-step card-lift bg-[#1B1815] border border-[#F4F1E8]/12 p-5 sm:p-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 ${
+                className={`story-step py-6 flex flex-col sm:flex-row items-start sm:items-center gap-6 ${
                   visibleSteps['team-founder'] ? 'is-visible' : ''
                 }`}
               >
@@ -1448,15 +1416,15 @@ export default function App() {
               {/* How it is built */}
               <div
                 data-step-id="team-how"
-                style={{ '--step-delay': '90ms' } as React.CSSProperties}
-                className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 p-5 space-y-1.5 ${
+                style={{ '--step-delay': '80ms' } as React.CSSProperties}
+                className={`story-step-slide py-4 grid grid-cols-1 md:grid-cols-12 gap-1.5 md:gap-6 items-baseline ${
                   visibleSteps['team-how'] ? 'is-visible' : ''
                 }`}
               >
-                <div className="text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
+                <div className="md:col-span-4 text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
                   {content.team.howItIsBuiltLabel}
                 </div>
-                <p className="text-sm text-[#F4F1E8]/80 leading-relaxed">
+                <p className="md:col-span-8 text-sm sm:text-base text-[#F4F1E8]/80 leading-relaxed">
                   {content.team.howItIsBuiltBody}
                 </p>
               </div>
@@ -1464,15 +1432,15 @@ export default function App() {
               {/* Open roles */}
               <div
                 data-step-id="team-roles"
-                style={{ '--step-delay': '180ms' } as React.CSSProperties}
-                className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 p-5 space-y-1.5 ${
+                style={{ '--step-delay': '160ms' } as React.CSSProperties}
+                className={`story-step-slide py-4 grid grid-cols-1 md:grid-cols-12 gap-1.5 md:gap-6 items-baseline ${
                   visibleSteps['team-roles'] ? 'is-visible' : ''
                 }`}
               >
-                <div className="text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
+                <div className="md:col-span-4 text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
                   {content.team.openRolesLabel}
                 </div>
-                <p className="text-sm text-[#F4F1E8]/80 leading-relaxed">
+                <p className="md:col-span-8 text-sm sm:text-base text-[#F4F1E8]/80 leading-relaxed">
                   {content.team.openRolesBody}
                 </p>
               </div>
@@ -1480,39 +1448,39 @@ export default function App() {
               {/* Advisers and pilot coaches */}
               <div
                 data-step-id="team-advisers"
-                style={{ '--step-delay': '270ms' } as React.CSSProperties}
-                className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 p-5 space-y-1.5 ${
+                style={{ '--step-delay': '240ms' } as React.CSSProperties}
+                className={`story-step-slide py-4 grid grid-cols-1 md:grid-cols-12 gap-1.5 md:gap-6 items-baseline ${
                   visibleSteps['team-advisers'] ? 'is-visible' : ''
                 }`}
               >
-                <div className="text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
+                <div className="md:col-span-4 text-xs font-medium uppercase tracking-widest text-[#D8B04A]">
                   {content.team.advisersLabel}
                 </div>
-                <p className="text-sm text-[#F4F1E8]/80 leading-relaxed">
+                <p className="md:col-span-8 text-sm sm:text-base text-[#F4F1E8]/80 leading-relaxed">
                   {content.team.advisersBody}
                 </p>
               </div>
             </div>
           </section>
 
-          {/* SECTION: WHAT WE ARE LOOKING FOR (ASK) */}
+          {/* SECTION: WHAT WE ARE LOOKING FOR (ASK) — plain list with 1px divider lines */}
           <section
             id="ask"
             ref={askRef}
-            className="relative scroll-mt-20 py-11 sm:py-14 border-b border-[#F4F1E8]/10"
+            className="relative scroll-mt-20 mb-14 md:mb-24"
           >
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.ask
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
 
             <div
               data-step-id="title-ask"
-              className={`section-title-slide max-w-3xl space-y-3 mb-7 ${
+              className={`section-title-slide max-w-3xl space-y-2.5 mb-6 ${
                 visibleSteps['title-ask'] ? 'is-visible' : ''
               }`}
             >
@@ -1528,31 +1496,25 @@ export default function App() {
               </h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-5">
+            <ul className="divide-y divide-[#F4F1E8]/10 border-y border-[#F4F1E8]/10 max-w-3xl mb-5">
               {content.ask.items.map((item, idx) => {
                 const stepId = `ask-item-${idx}`;
                 return (
-                  <div
+                  <li
                     key={stepId}
                     data-step-id={stepId}
                     style={
-                      { '--step-delay': `${idx * 95}ms` } as React.CSSProperties
+                      { '--step-delay': `${idx * 80}ms` } as React.CSSProperties
                     }
-                    className={`story-step-slide card-lift bg-[#1B1815] border border-[#F4F1E8]/10 p-5 flex items-start gap-3 ${
+                    className={`story-step-slide py-3.5 text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed ${
                       visibleSteps[stepId] ? 'is-visible' : ''
                     }`}
                   >
-                    <span
-                      aria-hidden="true"
-                      className="w-1.5 h-1.5 rounded-full bg-[#D8B04A] mt-2 shrink-0"
-                    />
-                    <span className="text-sm sm:text-base text-[#F4F1E8]/85 leading-relaxed">
-                      {item}
-                    </span>
-                  </div>
+                    {item}
+                  </li>
                 );
               })}
-            </div>
+            </ul>
 
             <p className="text-xs sm:text-sm text-[#F4F1E8]/65">
               {content.ask.timelineNote}
@@ -1560,16 +1522,12 @@ export default function App() {
           </section>
 
           {/* SECTION: CONTACT */}
-          <section
-            id="contact"
-            ref={contactRef}
-            className="relative scroll-mt-20 pt-11 sm:pt-14 pb-10"
-          >
+          <section id="contact" ref={contactRef} className="relative scroll-mt-20">
             <span
               aria-hidden="true"
-              className={`absolute top-14 -start-[25px] sm:-start-[37px] md:-start-[53px] w-3 h-3 rounded-full border transition-colors duration-300 ${
+              className={`absolute top-2 -start-[22px] sm:-start-[34px] md:-start-[50px] w-2.5 h-2.5 rounded-full border transition-colors duration-300 ${
                 reachedSections.contact
-                  ? 'bg-[#D8B04A] border-[#D8B04A] shadow-[0_0_0_4px_rgba(216,176,74,0.16)]'
+                  ? 'bg-[#D8B04A] border-[#D8B04A]'
                   : 'bg-[#141210] border-[#D8B04A]/50'
               }`}
             />
@@ -1591,10 +1549,10 @@ export default function App() {
                 {content.contact.title}
               </h2>
 
-              <div className="flex flex-wrap items-center gap-3 pt-1">
+              <div className="flex flex-wrap items-center gap-4 pt-1">
                 <a
                   href={`mailto:${content.contact.email}`}
-                  className="card-lift min-h-[44px] inline-flex items-center px-4 py-2 bg-[#1B1815] border border-[#F4F1E8]/15 hover:border-[#D8B04A] text-sm sm:text-base text-[#F4F1E8] num-readable transition-colors"
+                  className="min-h-[44px] inline-flex items-center text-sm sm:text-base text-[#F4F1E8] hover:text-[#D8B04A] num-readable transition-colors"
                   dir="ltr"
                 >
                   {content.contact.email}
@@ -1603,10 +1561,10 @@ export default function App() {
                 <button
                   type="button"
                   onClick={handleCopyEmail}
-                  className={`card-lift min-h-[44px] px-4 py-2 text-xs sm:text-sm font-medium border transition-colors ${
+                  className={`min-h-[40px] px-4 py-1.5 text-xs sm:text-sm font-medium transition-colors ${
                     copiedEmail
-                      ? 'bg-[#141210] text-[#D8B04A] border-[#D8B04A]'
-                      : 'bg-[#D8B04A] text-[#141210] border-[#D8B04A] hover:bg-[#D8B04A]/90'
+                      ? 'text-[#D8B04A]'
+                      : 'bg-[#D8B04A] text-[#141210] hover:bg-[#D8B04A]/90'
                   }`}
                 >
                   {content.contact.copyButton}
@@ -1617,7 +1575,7 @@ export default function App() {
         </div>
 
         {/* FOOTER */}
-        <footer className="mt-8 pt-6 border-t border-[#F4F1E8]/10 flex flex-wrap items-center justify-between gap-4 text-xs text-[#F4F1E8]/60">
+        <footer className="mt-14 md:mt-24 pt-6 border-t border-[#F4F1E8]/10 flex flex-wrap items-center justify-between gap-4 text-xs text-[#F4F1E8]/60">
           <LogoAsset variant="seesa" size="sm" alt="SEESA" />
           <p>{content.footer.line}</p>
         </footer>

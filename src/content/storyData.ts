@@ -238,7 +238,7 @@ export const storyContent: Record<Lang, StoryContent> = {
     top: {
       label: 'Project overview',
       headline: 'The digital fitness hub for coaches and clients',
-      subline: 'A coaching management platform, built in Israel, Hebrew-first.',
+      subline: 'A coaching management platform, built in Israel, made for the world.',
       button: 'See the roadmap',
     },
     problem: {
@@ -347,8 +347,7 @@ export const storyContent: Record<Lang, StoryContent> = {
           ],
           caption: 'Concept design, sample data',
         },
-        moreMockupsNote:
-          'More design mockups of the training area. They show an earlier visual style, before the final gold palette.',
+        moreMockupsNote: 'More design mockups of the training area.',
         mockupTitles: [
           'Program builder, English',
           'Program builder, Hebrew right to left',
@@ -726,7 +725,7 @@ export const storyContent: Record<Lang, StoryContent> = {
     top: {
       label: 'סקירת פרויקט',
       headline: 'מרחב הכושר הדיגיטלי למאמנים ולמתאמנים',
-      subline: 'פלטפורמה לניהול אימון אישי, נבנית בישראל, עברית קודם.',
+      subline: 'פלטפורמה לניהול אימון אישי, נבנית בישראל, מיועדת לכל העולם.',
       button: 'לצפייה במפת הדרכים',
     },
     problem: {
@@ -835,8 +834,7 @@ export const storyContent: Record<Lang, StoryContent> = {
           ],
           caption: 'עיצוב קונספט, נתונים לדוגמה',
         },
-        moreMockupsNote:
-          'עוד עיצובים לדוגמה של אזור האימונים. הם מציגים סגנון חזותי מוקדם, לפני פלטת הזהב הסופית.',
+        moreMockupsNote: 'עוד עיצובים לדוגמה של אזור האימונים.',
         mockupTitles: [
           'בונה התוכניות, אנגלית',
           'בונה התוכניות, עברית מימין לשמאל',
